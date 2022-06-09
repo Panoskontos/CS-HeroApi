@@ -40,7 +40,7 @@ namespace WebApplication2.Controllers
             var myhero = heroes.Find(h => h.Id == id);
             if (myhero == null)
             {
-                return BadRequest("Hero not found"); 
+                return BadRequest("Hero not found");
             }
             return Ok(myhero);
         }
@@ -53,6 +53,30 @@ namespace WebApplication2.Controllers
             return Ok(heroes);
         }
 
-        
+        [HttpPut]
+        public async Task<ActionResult<List<Hero>>> UpdateHero(Hero request)
+        {
+            var hero = heroes.Find(h => h.Id == request.Id);
+            if (hero == null)
+            {
+                return BadRequest("Hero not found");
+            }
+            hero.Name = request.Name;
+            hero.Description = request.Description;
+            hero.Power = request.Power;
+            return Ok(heroes);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<List<Hero>>> DeleteHero(int id)
+        {
+            var hero = heroes.Find(h => h.Id == id);
+            if (hero == null)
+            {
+                return BadRequest("Hero not found");
+            }
+            heroes.Remove(hero);
+            return Ok(heroes);
+        }
     }
 }
